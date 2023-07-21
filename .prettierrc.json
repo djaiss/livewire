@@ -1,0 +1,21 @@
+{
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@shufo/prettier-plugin-blade"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.blade.php"
+      ],
+      "options": {
+        "parser": "blade",
+        "tabWidth": 2
+      }
+    }
+  ]
+}
