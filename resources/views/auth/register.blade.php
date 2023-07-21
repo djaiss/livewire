@@ -8,7 +8,7 @@
            alt="logo" />
 
       <h2 class="mb-2 text-center font-bold">{{ __('Welcome to Bivouac') }}</h2>
-      <h3 class="text-center text-sm text-gray-700">{{ __('Create your account now for free.') }}</h3>
+      <h3 class="text-center text-sm text-gray-700">{{ __('Start managing your projects in less than a minute.') }}</h3>
     </div>
 
     <form method="POST"
@@ -102,17 +102,17 @@
 
       <!-- organization -->
       <div class="border-b px-6 py-4">
-        <x-input-label for="organization"
+        <x-input-label for="organization_name"
                        :value="__('Organization name')" />
         <x-text-input class="mt-1 block w-full"
-                      id="organization"
-                      name="organization"
+                      id="organization_name"
+                      name="organization_name"
                       type="text"
                       :value="old('organization')"
                       required
-                      autocomplete="organization" />
+                      autocomplete="organization_name" />
         <x-input-error class="mt-2"
-                       :messages="$errors->get('organization')" />
+                       :messages="$errors->get('organization_name')" />
       </div>
 
       <!-- actions -->
