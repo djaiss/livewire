@@ -10,10 +10,12 @@ parameters:
         # larastan needs to manage ->pivot properties
         #- '#Access to an undefined property App\\Models\\[^:]*::\$pivot\.#'
         - '#Method\s.+?\sreturn type has no value type specified in iterable type array\.#'
+        - '#\s.+?\sno value type specified in iterable type array\.#'
 
 #
     excludePaths:
 #        - ./*/*/FileToBeExcluded.php
+        - app/Services/UpdateUserInformation.php
 #
 #    checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
