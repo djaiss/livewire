@@ -29,7 +29,10 @@ class ProfileTest extends TestCase
      */
     public function profile_information_can_be_updated(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'first_name' => 'Henri',
+            'last_name' => 'Troyat',
+        ]);
 
         $response = $this
             ->actingAs($user)
@@ -44,7 +47,7 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
+        $this->assertSame('Henri Troyat', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
     }
