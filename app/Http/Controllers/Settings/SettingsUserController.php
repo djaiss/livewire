@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\ViewModels\Settings\User\SettingsUserViewModel;
 use App\Models\User;
 use App\Services\DestroyUser;
 use App\Services\InviteUser;
 use App\Services\UpdateUserPermission;
+use App\ViewModels\Settings\User\SettingsUserViewModel;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Inertia\Inertia;
@@ -23,23 +24,19 @@ class SettingsUserController extends Controller
         return view('settings.user.index', ['view' => $viewModel]);
     }
 
-    public function create(): Response
+    public function create(): View
     {
-        return Inertia::render('Settings/Personalize/Users/Create', [
-            'data' => SettingsUserViewModel::index(auth()->user()),
-        ]);
+        return view('settings.user.create');
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): RedirectResponse
     {
         (new InviteUser)->execute([
             'author_id' => auth()->user()->id,
             'email' => $request->input('email'),
         ]);
 
-        return response()->json([
-            'data' => route('settings.personalize.user.index'),
-        ], 201);
+        return redirect()->route('settings.user.index');
     }
 
     public function edit(Request $request, User $user): Response

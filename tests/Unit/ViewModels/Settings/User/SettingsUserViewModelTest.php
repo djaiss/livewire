@@ -17,21 +17,8 @@ class SettingsUserViewModelTest extends TestCase
         $user = User::factory()->create();
         $array = SettingsUserViewModel::index($user);
 
-        $this->assertCount(2, $array);
+        $this->assertCount(1, $array);
         $this->assertArrayHasKey('users', $array);
-        $this->assertArrayHasKey('url', $array);
-        $this->assertEquals(
-            [
-                'invite' => env('APP_URL') . '/settings/users/invite',
-                'invite_store' => env('APP_URL') . '/settings/users/invite',
-                'breadcrumb' => [
-                    'home' => env('APP_URL') . '/profile',
-                    'settings' => env('APP_URL') . '/settings',
-                    'users' => env('APP_URL') . '/settings/users',
-                ],
-            ],
-            $array['url']
-        );
     }
 
     /** @test */

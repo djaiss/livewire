@@ -19,7 +19,8 @@
             <li class="flex items-center border-b border-gray-200 px-4 py-2 hover:rounded-t-lg hover:bg-slate-50">
               <span class="mr-4 rounded border border-yellow-400 bg-yellow-100 px-1">👥</span>
               <a class="text-blue-700 underline hover:rounded-sm hover:bg-blue-700 hover:text-white"
-                 href="{{ route('settings.user.index') }}">{{ __('Add or remove users') }}</a>
+                 href="{{ route('settings.user.index') }}"
+                 wire:navigate>{{ __('Add or remove users') }}</a>
             </li>
             <li class="flex items-center border-b border-gray-200 px-4 py-2 hover:bg-slate-50">
               <span class="mr-4 rounded border border-yellow-400 bg-yellow-100 px-1">🏣</span>

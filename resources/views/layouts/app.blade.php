@@ -11,13 +11,16 @@
   <title>{{ config('app.name', 'Bivouac') }}</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.bunny.net"
-        rel="preconnect">
-  <link href="https://fonts.bunny.net/css?family=song-myung:400|inter:400,500,600&display=swap"
-        rel="stylesheet" />
+  <a href=""
+     href="https://fonts.bunny.net"
+     rel="preconnect">
+    <a href=""
+       href="https://fonts.bunny.net/css?family=song-myung:400|inter:400,500,600&display=swap"
+       rel="stylesheet" />
 
-  <!-- Scripts -->
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
@@ -46,9 +49,8 @@
             <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
               <x-heroicon-s-magnifying-glass
                                              class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
-              <span class="ml-2">
-                <Link :href="page.props.url.search">{{ __('Search') }}</Link>
-              </span>
+              <a class="ml-2"
+                 href="{{ route('search.index') }}">{{ __('Search') }}</a>
             </li>
 
             <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
@@ -79,7 +81,7 @@
               <x-heroicon-s-briefcase
                                       class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
               <span class="ml-2">
-                <Link :href="page.props.url.projects">{{ __('Projects') }}</Link>
+                <a href="">{{ __('Projects') }}</a>
               </span>
             </li>
 
@@ -97,7 +99,7 @@
                                         class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
               <span class="ml-2">
                 <a href="{{ route('settings.index') }}"
-                   :href="page.props.url.settings.personalize">{{ __('Account settings') }}</a>
+                   wire:navigate>{{ __('Account settings') }}</a>
               </span>
             </li>
           </ul>
@@ -131,7 +133,7 @@
                 {!! $user['avatar']['content'] !!}
               </div>
               <span class="ml-2">
-                <Link :href="page.props.url.profile">{{ $user['name'] }}</Link>
+                <a href="">{{ $user['name'] }}</a>
               </span>
             </li>
           </ul>
@@ -139,6 +141,7 @@
       </nav>
     </div>
   </div>
+  @livewireScripts
 </body>
 
 </html>
