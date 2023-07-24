@@ -53,11 +53,6 @@ class SettingsUserViewModel
             'avatar' => $user->avatar,
             'permissions' => $user->permissions,
             'url' => [
-                'breadcrumb' => [
-                    'home' => route('profile.edit'),
-                    'settings' => route('settings.index'),
-                    'users' => route('settings.user.index'),
-                ],
                 'update' => route('settings.user.update', [
                     'user' => $user->id,
                 ]),

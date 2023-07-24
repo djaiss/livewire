@@ -5,19 +5,17 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\ActivateUserAccount;
+use App\ViewModels\Auth\ValidateInvitationViewModel;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class ValidateInvitationController extends Controller
 {
-    public function show(Request $request, string $code): Response|RedirectResponse
+    public function show(Request $request, string $code): View|RedirectResponse
     {
-        if (!$request->hasValidSignature()) {
+        if (! $request->hasValidSignature()) {
             abort(401);
         }
 
@@ -27,12 +25,12 @@ class ValidateInvitationController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return Inertia::render('Auth/ValidateInvitation', [
-            'data' => ValidateInvitationViewModel::data($user),
-        ]);
+        $viewModel = ValidateInvitationViewModel::data($user);
+
+        return view('auth.validate-invitation', ['view' => $viewModel]);
     }
 
-    public function update(Request $request, string $code): JsonResponse
+    public function update(Request $request, string $code): RedirectResponse
     {
         $user = (new ActivateUserAccount)->execute([
             'invitation_code' => $code,
@@ -41,17 +39,15 @@ class ValidateInvitationController extends Controller
             'last_name' => $request->input('last_name'),
         ]);
 
-        if (Auth::attempt([
+        if (! auth()->attempt([
             'email' => $user->email,
             'password' => $request->input('password'),
         ])) {
-            $request->session()->regenerate();
-
-            return response()->json([
-                'data' => route('dashboard'),
-            ], 200);
+            throw new Exception('Something went wrong.');
         }
 
-        throw new Exception('Something went wrong.');
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard');
     }
 }

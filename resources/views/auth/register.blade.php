@@ -79,6 +79,9 @@
                         required
                         autocomplete="new-password" />
 
+          <x-input-help class="mt-2">
+            {{ __('Minimum 8 characters.') }}</x-input-help>
+
           <x-input-error class="mt-2"
                          :messages="$errors->get('password')" />
         </div>

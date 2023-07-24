@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Settings\User;
 
+use App\Mail\UserInvited;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class UserSettingsTest extends TestCase
@@ -41,5 +43,75 @@ class UserSettingsTest extends TestCase
             ->get('/settings/users')
             ->assertSee('John Doe')
             ->assertSee('Oliver Queen');
+    }
+
+    /** @test */
+    public function an_administrator_can_send_an_invite_to_a_new_user(): void
+    {
+        $user = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+        ]);
+
+        $this->actingAs($user)
+            ->post('/settings/users/invite', [
+                'email' => fake()->email,
+            ])
+            ->assertStatus(401);
+
+        $user = User::factory()->create([
+            'permissions' => User::ROLE_ADMINISTRATOR,
+        ]);
+
+        Mail::fake();
+
+        $email = fake()->email;
+        $this->actingAs($user)
+            ->post('/settings/users/invite', [
+                'email' => $email,
+            ])
+            ->assertRedirectToRoute('settings.user.index');
+
+        $this->actingAs($user)
+            ->get('/settings/users')
+            ->assertSee($email);
+
+        Mail::assertQueued(UserInvited::class);
+    }
+
+    /** @test */
+    public function a_user_can_be_edited(): void
+    {
+        $john = User::factory()->create([
+            'permissions' => User::ROLE_ADMINISTRATOR,
+        ]);
+        $oliver = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+            'organization_id' => $john->organization_id,
+        ]);
+
+        $this->actingAs($john)
+            ->put('/settings/users/' . $oliver->id, [
+                'permissions' => User::ROLE_ADMINISTRATOR,
+            ])
+            ->assertStatus(302)
+            ->assertRedirectToRoute('settings.user.index');
+    }
+
+    /** @test */
+    public function a_user_cant_be_edited(): void
+    {
+        $john = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+        ]);
+        $oliver = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+            'organization_id' => $john->organization_id,
+        ]);
+
+        $this->actingAs($john)
+            ->put('/settings/users/' . $oliver->id, [
+                'permissions' => User::ROLE_ADMINISTRATOR,
+            ])
+            ->assertStatus(401);
     }
 }

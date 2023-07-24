@@ -12,8 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class SettingsUserController extends Controller
 {
@@ -39,14 +37,14 @@ class SettingsUserController extends Controller
         return redirect()->route('settings.user.index');
     }
 
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user): View
     {
-        return Inertia::render('Settings/Personalize/Users/Edit', [
-            'data' => SettingsUserViewModel::edit($user),
-        ]);
+        $viewModel = SettingsUserViewModel::edit($user);
+
+        return view('settings.user.edit', ['view' => $viewModel]);
     }
 
-    public function update(Request $request, User $user): JsonResponse
+    public function update(Request $request, User $user): RedirectResponse
     {
         (new UpdateUserPermission)->execute([
             'author_id' => auth()->user()->id,
@@ -54,9 +52,7 @@ class SettingsUserController extends Controller
             'permissions' => $request->input('permissions'),
         ]);
 
-        return response()->json([
-            'data' => route('settings.personalize.user.index'),
-        ], 200);
+        return redirect()->route('settings.user.index');
     }
 
     public function destroy(Request $request, User $user): JsonResponse

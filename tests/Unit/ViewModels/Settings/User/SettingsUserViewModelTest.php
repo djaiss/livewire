@@ -77,11 +77,6 @@ class SettingsUserViewModelTest extends TestCase
                 ],
                 'permissions' => 'user',
                 'url' => [
-                    'breadcrumb' => [
-                        'home' => env('APP_URL') . '/profile',
-                        'settings' => env('APP_URL') . '/settings',
-                        'users' => env('APP_URL') . '/settings/users',
-                    ],
                     'update' => env('APP_URL') . '/settings/users/' . $user->id,
                 ],
             ],

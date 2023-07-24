@@ -2,6 +2,7 @@
   <!-- header -->
   <div class="mb-12">
     <div class="bg-white px-4 py-2 shadow">
+
       <!-- Breadcrumb -->
       <nav class="flex py-3 text-gray-700">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -40,49 +41,55 @@
   <div class="pb-12">
     <div class="mx-auto max-w-lg overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-800">
       <form method="POST"
-            action="{{ route('settings.user.store') }}">
-
+            action="{{ $view['url']['update'] }}">
+        @method('PUT')
         @csrf
+
         <div class="relative border-b px-6 py-4">
-          <div class="h-3w-32 relative mx-auto mb-4 w-32 overflow-hidden rounded-full">
-            <img class="mx-auto block text-center"
-                 src="/img/invite.png"
-                 alt="logo" />
+          <div class="relative mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full">
+            <x-avatar class="w-32"
+                      :data="$view['avatar']" />
           </div>
-          <h1 class="mb-2 text-center text-lg font-bold">{{ __('Invite a new user') }}</h1>
-          <h3 class="mb-4 text-center text-sm text-gray-700">{{ __("We'll email this person an invitation.") }}</h3>
-        </div>
-
-        <div class="relative border-b px-6 py-4">
-          <!-- Name -->
-
-          <x-input-label for="email"
-                         :value="__('What is the email address of the person you would like to invite?')" />
-
-          <x-text-input class="mt-1 block w-full"
-                        id="email"
-                        name="email"
-                        type="email"
-                        :value="old('email')"
-                        required
-                        autofocus />
-
-          <x-input-help class="mt-2">
-            {{ __('This should be a valid email address.') }}
-          </x-input-help>
-
-          <x-input-error class="mt-2"
-                         :messages="$errors->get('email')" />
+          <h1 class="mb-2 text-center text-lg font-bold">{{ $view['name'] }}</h1>
         </div>
 
         <div class="relative px-6 py-4">
+
+          <x-input-label class="mb-3"
+                         for="last_name"
+                         :value="__('What permissions should this person have?')" />
+
           <div class="space-y-2">
-            <p class="mb-2 text-sm font-bold">{{ __('What happens next?') }}</p>
-            <p>
-              {{ __(
-                  'The person will receive an email with instructions to setup the account. The invitation will remain valid for three days.',
-              ) }}
-            </p>
+            <div class="flex items-center gap-x-2">
+              <input class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                     id="account_manager"
+                     name="permissions"
+                     type="radio"
+                     value="account_manager"
+                     {{ $view['permissions'] === 'account_manager' ? 'checked' : '' }} />
+              <label class="block text-sm font-medium leading-6 text-gray-900"
+                     for="account_manager">{{ __('Account manager') }}</label>
+            </div>
+            <div class="flex items-center gap-x-2">
+              <input class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                     id="administrator"
+                     name="permissions"
+                     type="radio"
+                     value="administrator"
+                     {{ $view['permissions'] === 'administrator' ? 'checked' : '' }} />
+              <label class="block text-sm font-medium leading-6 text-gray-900"
+                     for="administrator">{{ __('Administrator') }}</label>
+            </div>
+            <div class="flex items-center gap-x-2">
+              <input class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                     id="user"
+                     name="permissions"
+                     type="radio"
+                     value="user"
+                     {{ $view['permissions'] === 'user' ? 'checked' : '' }} />
+              <label class="block text-sm font-medium leading-6 text-gray-900"
+                     for="user">{{ __('User') }}</label>
+            </div>
           </div>
         </div>
 
@@ -94,7 +101,7 @@
 
           <div>
             <x-primary-button class="w-full text-center">
-              {{ __('Send') }}
+              {{ __('Save') }}
             </x-primary-button>
           </div>
         </div>

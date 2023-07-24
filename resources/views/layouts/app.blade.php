@@ -93,15 +93,17 @@
             </li>
 
             <!-- settings -->
-            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white"
-                v-if="user.permissions !== 'user'">
-              <x-heroicon-s-cog-8-tooth
-                                        class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
-              <span class="ml-2">
-                <a href="{{ route('settings.index') }}"
-                   wire:navigate>{{ __('Account settings') }}</a>
-              </span>
-            </li>
+            @if ($user['can_manage_settings'])
+              <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white"
+                  v-if="user.permissions !== 'user'">
+                <x-heroicon-s-cog-8-tooth
+                                          class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+                <span class="ml-2">
+                  <a href="{{ route('settings.index') }}"
+                     wire:navigate>{{ __('Account settings') }}</a>
+                </span>
+              </li>
+            @endif
           </ul>
 
           <!-- help and user -->
