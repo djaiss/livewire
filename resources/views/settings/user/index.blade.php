@@ -90,10 +90,12 @@
                     <li class="mr-2 inline"><a
                          class="text-sm text-blue-700 underline hover:rounded-sm hover:bg-blue-700 hover:text-white"
                          href="{{ $user['url']['edit'] }}"
-                         wire:navigate>{{ __('Edit') }}</a></li>
+                         wire:navigate>{{ __('Edit') }}</a>
+                    </li>
                     <li class="inline"><a
                          class="text-sm text-blue-700 underline hover:rounded-sm hover:bg-blue-700 hover:text-white"
-                         href="">{{ __('Delete') }}</a></li>
+                         href="">{{ __('Delete') }}</a>
+                    </li>
                   </ul>
                 @endif
               </li>

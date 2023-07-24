@@ -75,14 +75,20 @@
                          :messages="$errors->get('email')" />
         </div>
 
+        <!-- what happens next -->
         <div class="relative px-6 py-4">
-          <div class="space-y-2">
-            <p class="mb-2 text-sm font-bold">{{ __('What happens next?') }}</p>
-            <p>
-              {{ __(
-                  'The person will receive an email with instructions to setup the account. The invitation will remain valid for three days.',
-              ) }}
-            </p>
+          <div class="flex items-center space-y-2">
+            <div class="mr-3 rounded-full">
+              <x-heroicon-s-information-circle class="h-7 w-7 text-gray-300" />
+            </div>
+            <div>
+              <p class="mb-2 text-sm font-bold">{{ __('What happens next?') }}</p>
+              <p>
+                {{ __(
+                    'The person will receive an email with instructions to setup the account. The invitation will remain valid for three days.',
+                ) }}
+              </p>
+            </div>
           </div>
         </div>
 

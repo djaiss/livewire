@@ -8,7 +8,6 @@ use App\Services\DestroyUser;
 use App\Services\InviteUser;
 use App\Services\UpdateUserPermission;
 use App\ViewModels\Settings\User\SettingsUserViewModel;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -55,15 +54,13 @@ class SettingsUserController extends Controller
         return redirect()->route('settings.user.index');
     }
 
-    public function destroy(Request $request, User $user): JsonResponse
+    public function destroy(User $user): RedirectResponse
     {
         (new DestroyUser)->execute([
             'author_id' => auth()->user()->id,
             'user_id' => $user->id,
         ]);
 
-        return response()->json([
-            'data' => true,
-        ], 200);
+        return redirect()->route('settings.user.index');
     }
 }
