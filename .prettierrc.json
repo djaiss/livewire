@@ -6,7 +6,6 @@
   "bracketSameLine": true,
   "sortTailwindcssClasses": true,
   "sortHtmlAttributes": "code-guide",
-  "singleAttributePerLine": false,
   "htmlWhitespaceSensitivity": "ignore",
   "plugins": [
     "prettier-plugin-tailwindcss",
@@ -18,9 +17,7 @@
         "*.blade.php"
       ],
       "options": {
-        "parser": "blade",
-        "tabWidth": 2,
-        "singleAttributePerLine": false
+        "parser": "blade"
       }
     }
   ]

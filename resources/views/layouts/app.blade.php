@@ -8,36 +8,150 @@
   <meta name="csrf-token"
         content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>{{ config('app.name', 'Bivouac') }}</title>
 
   <!-- Fonts -->
   <link href="https://fonts.bunny.net"
         rel="preconnect">
   <link href="https://fonts.bunny.net/css?family=song-myung:400|inter:400,500,600&display=swap"
-        rel="stylesheet" />
+        rel="stylesheet">
 
   <!-- Scripts -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
   <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-    @include('layouts.navigation')
+    <div class="flex min-h-screen flex-1 flex-col sm:flex-row">
+      <!-- main content -->
+      <main class="flex-1 bg-slate-100">
+        @include('notify::components.notify')
 
-    <!-- Page Heading -->
-    @if (isset($header))
-      <header class="bg-white shadow dark:bg-gray-800">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          {{ $header }}
+        {{ $slot }}
+      </main>
+
+      <!-- sidebar -->
+      <nav class="order-first bg-slate-800 sm:w-60">
+        <div class="flex-1">
+          <!-- Bivouac logo -->
+          <div class="mb-6 bg-slate-900 px-8 py-4">
+            <div class="flex items-center justify-center">
+              <img class="mr-4 h-6 w-6 fill-current text-white"
+                   src="/img/logo.svg"
+                   alt="Bivouac logo" />
+              <p class="app-name text-xl text-white">Bivouac</p>
+            </div>
+          </div>
+
+          <!-- search and notifications -->
+          <ul class="mb-4 border-b border-slate-700 pb-4 text-slate-400">
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-magnifying-glass
+                                             class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <a class="ml-2"
+                 href="{{ route('search.index') }}">{{ __('Search') }}</a>
+            </li>
+
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-bell
+                                 class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">{{ __('Notifications') }}</span>
+            </li>
+          </ul>
+
+          <!-- general menu -->
+          <ul class="mb-4 border-b border-slate-700 pb-4 text-slate-400">
+            <!-- dashboard -->
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-home
+                                 class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">{{ __('Home') }}</span>
+            </li>
+
+            <!-- company -->
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-building-office
+                                            class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">Basecamp</span>
+            </li>
+
+            <!-- projects -->
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-briefcase
+                                      class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">
+                <a href="">{{ __('Projects') }}</a>
+              </span>
+            </li>
+
+            <!-- asset management -->
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-computer-desktop
+                                             class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">{{ __('Asset management') }}</span>
+            </li>
+
+            <!-- settings -->
+            @if ($user['can_manage_settings'])
+              <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white"
+                  v-if="user.permissions !== 'user'">
+                <x-heroicon-s-cog-8-tooth
+                                          class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+                <span class="ml-2">
+                  <a href="{{ route('settings.index') }}"
+                     wire:navigate>{{ __('Account settings') }}</a>
+                </span>
+              </li>
+            @endif
+          </ul>
+
+          <!-- help and user -->
+          <ul class="mb-4 border-b border-slate-700 pb-4 text-slate-400">
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-question-mark-circle
+                                                 class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+              <span class="ml-2">{{ __('Help') }}</span>
+            </li>
+
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <x-heroicon-s-arrow-left-on-rectangle
+                                                    class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
+
+              <form class="ml-2"
+                    method="POST"
+                    action="{{ route('logout') }}">
+                @csrf
+                <span class="cursor-pointer"
+                      onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Logout') }}</span>
+              </form>
+            </li>
+          </ul>
+
+          <!-- user -->
+          <ul class="mb-4 text-slate-400">
+            <li class="group flex items-center px-4 py-2 hover:bg-slate-900 hover:text-white">
+              <div class="mr-2 h-7 w-7 rounded">
+                {!! $user['avatar']['content'] !!}
+              </div>
+              <span class="ml-2">
+                <a href="">{{ $user['name'] }}</a>
+              </span>
+            </li>
+          </ul>
         </div>
-      </header>
-    @endif
-
-    <!-- Page Content -->
-    <main>
-      {{ $slot }}
-    </main>
+      </nav>
+    </div>
   </div>
+  @livewireScripts
+  <script type="text/javascript">
+    e = document.querySelector("div.notify");
+    if (e) {
+      setTimeout(function() {
+        e.style.display = 'none'
+      }, 3000);
+    }
+  </script>
 </body>
 
 </html>

@@ -2,16 +2,15 @@
 
 namespace App\View\Components;
 
+use App\ViewModels\Layout\LayoutViewModel;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
 class AppLayout extends Component
 {
-    /**
-     * Get the view / contents that represents the component.
-     */
     public function render(): View
     {
-        return view('layouts.app');
+        return view('layouts.app')
+            ->with('user', LayoutViewModel::data(auth()->user()));
     }
 }
