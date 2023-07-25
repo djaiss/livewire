@@ -81,7 +81,7 @@
               <x-heroicon-s-briefcase
                                       class="h-4 w-4 transition ease-in-out group-hover:fill-current group-hover:text-blue-500" />
               <span class="ml-2">
-                <a href="">{{ __('Projects') }}</a>
+                <a href="{{ route('projects.index') }}" wire:navigate>{{ __('Projects') }}</a>
               </span>
             </li>
 
