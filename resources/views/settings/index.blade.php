@@ -2,7 +2,7 @@
   <!-- header -->
   <div class="mx-auto mb-6 max-w-4xl px-12 pt-6 sm:px-6 lg:px-8">
     <div class="flex justify-center bg-white px-4 shadow sm:rounded-lg">
-      <div class="flex items-center text-center">
+      <div class="flex items-center">
         <img class="mr-6 h-24 w-24"
              src="/img/settings.png"
              alt="settings" />
