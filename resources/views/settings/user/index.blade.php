@@ -94,7 +94,8 @@
                     </li>
                     <li class="inline"><a
                          class="text-sm text-blue-700 underline hover:rounded-sm hover:bg-blue-700 hover:text-white"
-                         href="">{{ __('Delete') }}</a>
+                         href="{{ $user['url']['delete'] }}"
+                         wire:navigate>{{ __('Delete') }}</a>
                     </li>
                   </ul>
                 @endif

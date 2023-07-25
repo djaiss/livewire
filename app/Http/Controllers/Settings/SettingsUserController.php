@@ -33,12 +33,12 @@ class SettingsUserController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        smilify('success', __('User invited successfully.'));
+        notify()->success(__('User invited successfully.'));
 
         return redirect()->route('settings.user.index');
     }
 
-    public function edit(Request $request, User $user): View
+    public function edit(User $user): View
     {
         $viewModel = SettingsUserViewModel::edit($user);
 
@@ -53,9 +53,16 @@ class SettingsUserController extends Controller
             'permissions' => $request->input('permissions'),
         ]);
 
-        smilify('success', __('Changes saved.'));
+        notify()->success(__('Changes saved.'));
 
         return redirect()->route('settings.user.index');
+    }
+
+    public function delete(User $user): View
+    {
+        $viewModel = SettingsUserViewModel::delete($user);
+
+        return view('settings.user.destroy', ['view' => $viewModel]);
     }
 
     public function destroy(User $user): RedirectResponse
@@ -64,6 +71,8 @@ class SettingsUserController extends Controller
             'author_id' => auth()->user()->id,
             'user_id' => $user->id,
         ]);
+
+        notify()->success(__('The user has been deleted.'));
 
         return redirect()->route('settings.user.index');
     }

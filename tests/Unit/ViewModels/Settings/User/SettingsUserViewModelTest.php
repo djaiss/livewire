@@ -48,7 +48,7 @@ class SettingsUserViewModelTest extends TestCase
                 'permissions' => 'User',
                 'url' => [
                     'edit' => env('APP_URL') . '/settings/users/' . $user->id . '/edit',
-                    'destroy' => env('APP_URL') . '/settings/users/' . $user->id,
+                    'delete' => env('APP_URL') . '/settings/users/' . $user->id . '/delete',
                 ],
             ],
             $array
@@ -78,6 +78,28 @@ class SettingsUserViewModelTest extends TestCase
                 'permissions' => 'user',
                 'url' => [
                     'update' => env('APP_URL') . '/settings/users/' . $user->id,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_data_for_the_delete_view(): void
+    {
+        $user = User::factory()->create([
+            'first_name' => 'Ross',
+            'last_name' => 'Geller',
+        ]);
+        $array = SettingsUserViewModel::delete($user);
+
+        $this->assertCount(3, $array);
+        $this->assertEquals(
+            [
+                'id' => $user->id,
+                'name' => 'Ross Geller',
+                'url' => [
+                    'destroy' => env('APP_URL') . '/settings/users/' . $user->id,
                 ],
             ],
             $array

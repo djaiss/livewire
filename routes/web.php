@@ -44,6 +44,7 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::post('users/invite', [SettingsUserController::class, 'store'])->name('settings.user.store');
         Route::get('users/{user}/edit', [SettingsUserController::class, 'edit'])->name('settings.user.edit');
         Route::put('users/{user}', [SettingsUserController::class, 'update'])->name('settings.user.update');
+        Route::get('users/{user}/delete', [SettingsUserController::class, 'delete'])->name('settings.user.delete');
         Route::delete('users/{user}', [SettingsUserController::class, 'destroy'])->name('settings.user.destroy');
 
         // office management

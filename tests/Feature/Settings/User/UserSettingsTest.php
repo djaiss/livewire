@@ -114,4 +114,45 @@ class UserSettingsTest extends TestCase
             ])
             ->assertStatus(401);
     }
+
+    /** @test */
+    public function a_user_can_be_deleted(): void
+    {
+        $john = User::factory()->create([
+            'permissions' => User::ROLE_ADMINISTRATOR,
+        ]);
+        $oliver = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+            'organization_id' => $john->organization_id,
+        ]);
+
+        $this->actingAs($john)
+            ->get('/settings/users/' . $oliver->id . '/delete')
+            ->assertStatus(200);
+
+        $this->actingAs($john)
+            ->delete('/settings/users/' . $oliver->id)
+            ->assertStatus(302)
+            ->assertRedirectToRoute('settings.user.index');
+    }
+
+    /** @test */
+    public function a_user_cant_be_deleted(): void
+    {
+        $john = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+        ]);
+        $oliver = User::factory()->create([
+            'permissions' => User::ROLE_USER,
+            'organization_id' => $john->organization_id,
+        ]);
+
+        $this->actingAs($john)
+            ->get('/settings/users/' . $oliver->id . '/delete')
+            ->assertStatus(401);
+
+        $this->actingAs($john)
+            ->delete('/settings/users/' . $oliver->id)
+            ->assertStatus(401);
+    }
 }

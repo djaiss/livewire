@@ -38,7 +38,7 @@ class SettingsUserViewModel
                 'edit' => route('settings.user.edit', [
                     'user' => $otherUser->id,
                 ]),
-                'destroy' => route('settings.user.destroy', [
+                'delete' => route('settings.user.delete', [
                     'user' => $otherUser->id,
                 ]),
             ],
@@ -54,6 +54,19 @@ class SettingsUserViewModel
             'permissions' => $user->permissions,
             'url' => [
                 'update' => route('settings.user.update', [
+                    'user' => $user->id,
+                ]),
+            ],
+        ];
+    }
+
+    public static function delete(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'url' => [
+                'destroy' => route('settings.user.destroy', [
                     'user' => $user->id,
                 ]),
             ],
