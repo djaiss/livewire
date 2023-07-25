@@ -41,7 +41,7 @@
 
             <div>
               <x-primary-link :href="route('settings.user.create')"
-                              wire:navigate>{{ __('Invite user') }}</x-primary-link>
+                              wire:navigate.hover>{{ __('Invite user') }}</x-primary-link>
             </div>
           </div>
 
