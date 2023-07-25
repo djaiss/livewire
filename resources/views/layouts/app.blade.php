@@ -26,6 +26,8 @@
     <div class="flex min-h-screen flex-1 flex-col sm:flex-row">
       <!-- main content -->
       <main class="flex-1 bg-slate-100">
+        @include('notify::components.notify')
+
         {{ $slot }}
       </main>
 
@@ -142,6 +144,14 @@
     </div>
   </div>
   @livewireScripts
+  <script type="text/javascript">
+    e = document.querySelector("div.notify");
+    if (e) {
+      setTimeout(function() {
+        e.style.display = 'none'
+      }, 3000);
+    }
+  </script>
 </body>
 
 </html>

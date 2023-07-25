@@ -33,6 +33,8 @@ class SettingsUserController extends Controller
             'email' => $request->input('email'),
         ]);
 
+        smilify('success', __('User invited successfully.'));
+
         return redirect()->route('settings.user.index');
     }
 
@@ -50,6 +52,8 @@ class SettingsUserController extends Controller
             'user_id' => $user->id,
             'permissions' => $request->input('permissions'),
         ]);
+
+        smilify('success', __('Changes saved.'));
 
         return redirect()->route('settings.user.index');
     }
